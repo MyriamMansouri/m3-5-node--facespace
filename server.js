@@ -4,7 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 
 const { users } = require("./data/users");
-const { handleHomepage, handleFourOhFour } = require("./js/handler")
+const { handleHomepage, handleFourOhFour, handleProfilePage } = require("./js/handler")
 
 let currentUser = {};
 
@@ -24,6 +24,8 @@ app.set("view engine", "ejs");
 // endpoints
 
 app.get('/', handleHomepage)
+app.get('/users/:id', handleProfilePage)
+
 // a catchall endpoint that will send the 404 message.
 app.get("*", handleFourOhFour);
 
