@@ -1,28 +1,30 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const morgan = require('morgan');
+const express = require("express");
+const morgan = require("morgan");
 
-const { users } = require('./data/users');
+const { users } = require("./data/users");
+const { handleHomepage, handleFourOhFour } = require("./js/handler")
 
 let currentUser = {};
 
 // declare the 404 function
-const handleFourOhFour = (req, res) => {
-  res.status(404).send("I couldn't find what you're looking for.");
-};
+
 
 // -----------------------------------------------------
 // server endpoints
-express()
-  .use(morgan('dev'))
-  .use(express.static('public'))
-  .use(express.urlencoded({ extended: false }))
-  .set('view engine', 'ejs')
 
-  // endpoints
+const app = express();
 
-  // a catchall endpoint that will send the 404 message.
-  .get('*', handleFourOhFour)
+app.use(morgan("dev"));
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
 
-  .listen(8000, () => console.log('Listening on port 8000'));
+// endpoints
+
+app.get('/', handleHomepage)
+// a catchall endpoint that will send the 404 message.
+app.get("*", handleFourOhFour);
+
+app.listen(8000, () => console.log("Listening on port 8000"));
