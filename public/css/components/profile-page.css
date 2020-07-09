@@ -32,6 +32,7 @@
 .friend img {
   border: 2px solid var(--primary-color);
   width: 100%;
+  transition: all ease 400ms;
 }
 .friend p {
   background: rgba(255, 255, 255, 0.6);
@@ -42,6 +43,10 @@
   text-align: center;
   font-weight: 700;
   width: calc(100% - 4px);
+}
+
+.friend img:hover {
+  border: 5px solid var(--primary-color);
 }
 
 @media screen and (min-width: 600px) {

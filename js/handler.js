@@ -18,7 +18,7 @@ const handleProfilePage = (req, res) => {
 };
 
 const handleSignin = (req, res) => {
-  if (currentUser === undefined) {
+  if (currentUser._id === undefined) {
     res.status(200).render("pages/signin");
   } else {
     res.status(200).redirect(`/users/${currentUser._id}`);
