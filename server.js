@@ -6,8 +6,6 @@ const morgan = require("morgan");
 const { users } = require("./data/users");
 const { handleHomepage, handleFourOhFour, handleProfilePage, handleSignin, handleName } = require("./js/handler")
 
-let currentUser = {};
-
 // declare the 404 function
 
 

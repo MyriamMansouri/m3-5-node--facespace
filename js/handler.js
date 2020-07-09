@@ -1,7 +1,8 @@
 const { users } = require("../data/users");
+let currentUser = {};
 
 const handleHomepage = (req, res) => {
-  res.status(200).render("pages/homepage", { users });
+  res.status(200).render("pages/homepage", { currentUser, users });
 };
 
 const handleFourOhFour = (req, res) => {
@@ -11,24 +12,34 @@ const handleFourOhFour = (req, res) => {
 const handleProfilePage = (req, res) => {
   const id = req.params.id;
   const user = users.filter((user) => user._id === id)[0];
-  const friendsId = user.friends
-  const friends = users.filter( user => friendsId.includes(user._id))
-  res.status(200).render("pages/profile", { user, friends });
+  const friendsId = user.friends;
+  const friends = users.filter((user) => friendsId.includes(user._id));
+  res.status(200).render("pages/profile", { currentUser, user, friends });
 };
 
 const handleSignin = (req, res) => {
-  res.status(200).render("pages/signin");
-}
+  if (currentUser === undefined) {
+    res.status(200).render("pages/signin");
+  } else {
+    res.status(200).redirect(`/users/${currentUser._id}`);
+  }
+};
 
 const handleName = (req, res) => {
   const firstName = req.body.firstName;
-  const user = users.find( user => user.name === firstName)
+  currentUser = users.find((user) => user.name === firstName);
 
-  if ( user === undefined ) {
-    res.status(404).send(firstName);
+  if (currentUser === undefined) {
+    res.status(404).redirect("/signin");
   } else {
-    res.status(200).redirect(`/users/${user._id}`);
+    res.status(200).redirect(`/users/${currentUser._id}`);
   }
-  
-}
-module.exports = { handleHomepage, handleFourOhFour, handleProfilePage, handleSignin, handleName };
+};
+
+module.exports = {
+  handleHomepage,
+  handleFourOhFour,
+  handleProfilePage,
+  handleSignin,
+  handleName,
+};
