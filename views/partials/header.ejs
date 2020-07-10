@@ -8,5 +8,5 @@
 <body>
   <header class="header">
       <h1 class='site-title'><a href="/">Facespace</a></h1>
-      <a href="/signin" class='signin-link'><%- name === undefined ? "Sign In" : `Howdy, ${name}` %> </a>
+      <a href="/signin" class='signin-link'><%- currentUser.name === undefined ? "Sign In" : `Howdy, ${currentUser.name}` %> </a>
   </header>

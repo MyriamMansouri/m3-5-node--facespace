@@ -19,7 +19,7 @@ const handleProfilePage = (req, res) => {
 
 const handleSignin = (req, res) => {
   if (currentUser._id === undefined) {
-    res.status(200).render("pages/signin");
+    res.status(200).render("pages/signin", { currentUser });
   } else {
     res.status(200).redirect(`/users/${currentUser._id}`);
   }
@@ -27,13 +27,28 @@ const handleSignin = (req, res) => {
 
 const handleName = (req, res) => {
   const firstName = req.body.firstName;
-  currentUser = users.find((user) => user.name === firstName);
+  if (users.find((user) => user.name === firstName)) {
+    currentUser = users.find((user) => user.name === firstName);
+  }
 
-  if (currentUser === undefined) {
+  if (currentUser._id === undefined) {
     res.status(404).redirect("/signin");
   } else {
     res.status(200).redirect(`/users/${currentUser._id}`);
   }
+};
+
+const handleUnfriend = (req, res) => {
+  const friendId = req.params.id;
+  currentUser.friends = currentUser.friends.filter((id) => id !== friendId);
+  users.forEach(
+    (user) =>
+      (user.friends =
+        user._id === friendId
+          ? user.friends.filter((id) => id !== currentUser._id)
+          : user.friends)
+  );
+  
 };
 
 module.exports = {
@@ -42,4 +57,5 @@ module.exports = {
   handleProfilePage,
   handleSignin,
   handleName,
+  handleUnfriend,
 };
